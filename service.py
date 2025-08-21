@@ -6,6 +6,8 @@ import base64
 from io import BytesIO
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timezone
+import service_pb2
+import service_pb2_grpc
 
 app = FastAPI(title="CO2 Analytical insights AI service")
 app.add_middleware(
