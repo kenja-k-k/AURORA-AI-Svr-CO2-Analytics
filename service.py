@@ -7,7 +7,7 @@ from io import BytesIO
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timezone
 
-app = FastAPI(title="CSV Update Service")
+app = FastAPI(title="CO2 Analytical insights AI service")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -49,7 +49,7 @@ async def upload_csv(file: UploadFile = File(...)):
     global csv_path, data
      
     timestamp = datetime.now().astimezone().strftime("%Y-%m-%d_%H-%M-%S_%Z")
-    csv_path = f"./{timestamp}_{file.filename}" #save file to local dir
+    csv_path = f"./csv_dataset" #save file to local dir, using the same name to make sure that files replace one another and only one is saved each time
     with open(csv_path, "wb") as f:
         f.write(await file.read())
 
@@ -63,16 +63,16 @@ async def upload_csv(file: UploadFile = File(...)):
 #___________________________
 
 
-# endpoint to a set csv that exists the server___________
-@app.post("/use_csv/")
-async def use_csv(csv_name: str):
+#we are setting the path and read the data, we call this function when getting insights
+
+def use_csv():
     global csv_path, data
     
-    csv_path = fr".\{csv_name}" 
+    csv_path = fr".\csv_dataset"
     if os.path.exists(csv_path):
 
         data = pd.read_csv(csv_path)
-        return {f"CSV data set to local path on server: {csv_path}"}
+       # return {f"CSV data set to local path on server: {csv_path}"}
     else:
         return {"error": "CSV not found on server. Please check the file name."}
 
@@ -84,10 +84,10 @@ async def use_csv(csv_name: str):
     will try to find a bette way to do this.
     """
 @app.get("/get_csv/")
-async def use_csv(csv_name: str):
+async def get_csv(csv_name: str):
     global csv_path, data
     
-    csv_path = fr".\{csv_name}" 
+    csv_path = fr".\{csv_name}"
     if os.path.exists(csv_path):
 
         data = pd.read_csv(csv_path)
@@ -118,6 +118,7 @@ async def update_csv(entry: GlobalInput):
 # endpoint to get only the plot image
 @app.get("/get_insights/")
 async def get_insights_plot(facility_name: str, scatter: bool = False):
+    use_csv()
     global csv_path, data
     if csv_path is None:
         raise HTTPException(status_code=400, detail="CSV path not set. Use /set_csv/ before anything.")
