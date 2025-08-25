@@ -9,9 +9,9 @@ from protos import service_pb2_grpc
 class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
 
     def UploadCSV(self, request, context):
-        # Your implementation here
+        # Implementation here when we upload a file
         print("Received UploadCSV request")
-        # Return a placeholder response (customize with actual response data)
+        # Return a placeholder response (customize with actual response data - to do)
         return service_pb2.UploadCSVResponse()
 
     def GetCSV(self, request, context):
