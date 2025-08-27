@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
@@ -7,7 +9,8 @@ import argparse
 
 
 #Main function for analytics. This may use different models_________
-def CO2_emssion_pattern(data, facility_name, plot=False, scatter=False):
+def CO2_emssion_pattern(data, facility_name, plot=False):
+    print("Start running CO2_emssion_pattern")
     filtered = data[data["facility_name"] == facility_name].dropna(
         subset=["co2_emitted_tonnes", "capture_efficiency_percent"]
     )
@@ -16,13 +19,16 @@ def CO2_emssion_pattern(data, facility_name, plot=False, scatter=False):
         print(f"No data found for facility: {facility_name}")
         return None, None
 
-    features = filtered[["co2_emitted_tonnes"]]
-    target = filtered["capture_efficiency_percent"]
+    #features = filtered[["co2_emitted_tonnes"]]
+    #target = filtered["capture_efficiency_percent"]
+
+    x = filtered[["co2_emitted_tonnes"]]
+    y = filtered["capture_efficiency_percent"]
 
     model = Ridge()
-    model.fit(features, target)
-
-    graph = None
+    model.fit(x, y)
+    y_pred = model.predict(x)
+    """graph = None
     if plot:
         predictions = model.predict(features)
         graph = plt.figure(figsize=(16, 9))
@@ -33,9 +39,17 @@ def CO2_emssion_pattern(data, facility_name, plot=False, scatter=False):
         plt.ylabel("Capture Efficiency (%)")
         plt.title(f"{facility_name}: Emissions vs Capture Efficiency")
         plt.legend()
-        # plt.show()  not needed for now
+        # plt.show()  not needed for now"""
 
-    return model, graph
+    chart_data = {
+        "labels": x["co2_emitted_tonnes"].astype(str).tolist(),  # X-axis
+        "predicted_values": y_pred.tolist(),  # regression line
+        "actual_values": y.tolist()  # actual measurements
+    }
+    print("Reached chart_data")
+    return chart_data
+
+    #return model, graph
 #__________________________________________________________________
 
 #Run from cli______________________________

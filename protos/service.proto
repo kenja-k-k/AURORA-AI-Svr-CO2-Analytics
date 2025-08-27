@@ -50,11 +50,16 @@ message UpdateCSVResponse {
 
 message GetInsightsRequest {
   string facility_name = 1;
-  bool scatter = 2;
+}
+
+message ChartData {
+  repeated string labels = 1;  //for x-axis CO2 emitted
+  repeated double predicted_values = 2; // regression line y-axis
+  repeated  double actual_values = 3;  // actual values for y-axis
 }
 
 message GetInsightsResponse {
-  string plot_base64 = 1;
+  ChartData chart_data = 1;
 }
 
 // The CO2 Analytics AI Service definition

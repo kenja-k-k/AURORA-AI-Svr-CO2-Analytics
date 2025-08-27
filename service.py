@@ -7,7 +7,7 @@ from io import BytesIO
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timezone
 import service_pb2
-import service_pb2_grpc
+
 
 app = FastAPI(title="CO2 Analytical insights AI service")
 app.add_middleware(
@@ -72,7 +72,6 @@ def use_csv():
     
     csv_path = fr".\csv_dataset"
     if os.path.exists(csv_path):
-
         data = pd.read_csv(csv_path)
        # return {f"CSV data set to local path on server: {csv_path}"}
     else:
