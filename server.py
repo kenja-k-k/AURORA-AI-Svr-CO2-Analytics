@@ -65,7 +65,6 @@ class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
             context.set_details("No csv loaded. Use /set_csv/ before anything.")
             return service_pb2.GetInsightsResponse()
 
-        #model, graph = CO2_emssion_pattern(data, facility_name=request.facility_name, plot=True, scatter=request.scatter)
         chart_data = CO2_emssion_pattern(data, facility_name=request.facility_name)
 
         if chart_data is None:
