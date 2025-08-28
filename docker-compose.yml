@@ -1,0 +1,10 @@
+
+services:
+  web:
+    build: .
+    ports:
+      - "50051:50051"
+    volumes:
+      - .:/app
+    environment:
+      - ENV=production
