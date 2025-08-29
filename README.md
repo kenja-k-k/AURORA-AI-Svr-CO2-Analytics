@@ -21,14 +21,16 @@ Example: ```localhost:50051/UploadCSV```
 There are two main endpoints that are currently exposed and are ready for use:
 <ul>
   <li><b> UploadCSV </b> This endpoint accepts a CSV file in base64 format as a string.
-     ```localhost:50051/UploadCSV```
+    
+    ```localhost:50051/UploadCSV```
     ```{ "file_content": "base64 string here" }```
+    
   </li>
     
-  <li><b>GetInsightsPlot </b>This endpoint performs an L2 on the loaded data for a specific facility. 
-    It returns a chart data points that can be used to construct a plot / graph showing the relationship between emissions and capture efficiency
-    Example endpoint: ```localhost:50051/GetInsightsPlot
-    Example input facility name: ```{ "facility_name": "Facility Name Here" }```
+  <li><b>GetInsightsPlot </b>This endpoint performs an L2 on the loaded data for a specific facility. It returns a chart data points that can be used to construct a plot / graph showing the relationship between emissions and capture efficiency.
+    
+   ```localhost:50051/GetInsightsPlot```
+   ```{ "facility_name": "Facility Name Here" }```
 
    <b>The process behind GetInsightsPlot</b>
    This process trains a regression model on the provided data, makes predictions, and prepares the results for visualization. The model is trained using the features extracted from the dataset file,
