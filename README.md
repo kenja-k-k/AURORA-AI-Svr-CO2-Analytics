@@ -21,8 +21,8 @@ Example: ```localhost:50051/UploadCSV```
 There are two main endpoints that are currently exposed and are ready for use:
 <ul>
   <li><b> UploadCSV </b> This endpoint accepts a CSV file in base64 format as a string.
-    Example endpoint: ```localhost:50051/UploadCSV```
-    Example input file:  ``` { "file_content": "base64 string here" }```
+     ```localhost:50051/UploadCSV```
+    ```{ "file_content": "base64 string here" }```
   </li>
     
   <li><b>GetInsightsPlot </b>This endpoint performs an L2 on the loaded data for a specific facility. 
