@@ -9,7 +9,7 @@ import pandas as pd
 from protos import service_pb2
 from protos import service_pb2_grpc
 import time
-from insights import CO2_emssion_pattern
+from insights import CO2_emssion_pattern, detect_efficiency_pattern, storage_efficiency_pattern
 
 
 class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
@@ -78,8 +78,91 @@ class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
             actual_values=chart_data["actual_values"]
         )
 
+
         return service_pb2.GetInsightsResponse(
             chart_data = chart_data_proto
+        )
+
+
+    def GetCaptureEfficiencyData(self, request, context):
+        print("Received GetEfficiencyData request")
+        global csv_path, data
+        csv_path = fr".\csv_dataset.csv"
+        print(csv_path)
+        if os.path.exists(csv_path):
+            print("path exists")
+            data = pd.read_csv(csv_path)
+        else:
+            return {"error": "CSV not found on server. Please check the file name."}
+
+        if csv_path is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details("CSV path not set. Use UploadCsv before anything.")
+            return service_pb2.GetCaptureEfficiencyDataResponse()
+
+        if data.empty:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details("No csv loaded. Use /set_csv/ before anything.")
+            return service_pb2.GetCaptureEfficiencyDataResponse()
+
+        chart_data = detect_efficiency_pattern(data, facility_name=request.facility_name)
+
+        if chart_data is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details("No data available for this facility.")
+            return service_pb2.GetCaptureEfficiencyDataResponse()
+
+        chart_data_proto = service_pb2.ChartData(
+            labels=chart_data["labels"],
+            predicted_values=chart_data["predicted_values"],
+            actual_values=chart_data["actual_values"],
+            inefficiency_flag = chart_data["inefficiency_flag"]
+        )
+
+
+        return service_pb2.GetCaptureEfficiencyDataResponse(
+            chart_data = chart_data_proto
+        )
+
+
+
+    def GetStorageEfficiencyData(self, request, context):
+        print("Received GetStorageEfficiencyData request")
+        global csv_path, data
+        csv_path = fr".\csv_dataset.csv"
+        print(csv_path)
+        if os.path.exists(csv_path):
+            print("path exists")
+            data = pd.read_csv(csv_path)
+        else:
+            return {"error": "CSV not found on server. Please check the file name."}
+
+        if csv_path is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details("CSV path not set. Use UploadCsv before anything.")
+            return service_pb2.GetStorageEfficiencyDataResponse()
+
+        if data.empty:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details("No csv loaded. Use /set_csv/ before anything.")
+            return service_pb2.GetStorageEfficiencyDataResponse()
+
+        chart_data = storage_efficiency_pattern(data, facility_name=request.facility_name)
+
+        if chart_data is None:
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            context.set_details("No data available for this facility.")
+            return service_pb2.GetStorageEfficiencyDataResponse()
+
+        chart_data_proto = service_pb2.ChartData(
+            labels=chart_data["labels"],
+            actual_stored_co2=chart_data["actual_stored_co2"],
+            predicted_stored_co2=chart_data["predicted_stored_co2"],
+            storage_issue_detected=chart_data["storage_issue_detected"]
+        )
+
+        return service_pb2.GetStorageEfficiencyDataResponse(
+            chart_data=chart_data_proto
         )
 
 

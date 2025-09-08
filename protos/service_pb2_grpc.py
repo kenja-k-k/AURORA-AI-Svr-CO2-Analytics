@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from protos import service_pb2 as protos_dot_service__pb2
+import service_pb2 as service__pb2
 
 GRPC_GENERATED_VERSION = '1.74.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in protos/service_pb2_grpc.py depends on'
+        + f' but the generated code in service_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -37,23 +37,23 @@ class CO2AnalyticsServiceStub(object):
         """
         self.UploadCSV = channel.unary_unary(
                 '/co2analytics.CO2AnalyticsService/UploadCSV',
-                request_serializer=protos_dot_service__pb2.UploadCSVRequest.SerializeToString,
-                response_deserializer=protos_dot_service__pb2.UploadCSVResponse.FromString,
+                request_serializer=service__pb2.UploadCSVRequest.SerializeToString,
+                response_deserializer=service__pb2.UploadCSVResponse.FromString,
                 _registered_method=True)
         self.GetCSV = channel.unary_unary(
                 '/co2analytics.CO2AnalyticsService/GetCSV',
-                request_serializer=protos_dot_service__pb2.GetCSVRequest.SerializeToString,
-                response_deserializer=protos_dot_service__pb2.GetCSVResponse.FromString,
+                request_serializer=service__pb2.GetCSVRequest.SerializeToString,
+                response_deserializer=service__pb2.GetCSVResponse.FromString,
                 _registered_method=True)
         self.UpdateCSV = channel.unary_unary(
                 '/co2analytics.CO2AnalyticsService/UpdateCSV',
-                request_serializer=protos_dot_service__pb2.GlobalInput.SerializeToString,
-                response_deserializer=protos_dot_service__pb2.UpdateCSVResponse.FromString,
+                request_serializer=service__pb2.GlobalInput.SerializeToString,
+                response_deserializer=service__pb2.UpdateCSVResponse.FromString,
                 _registered_method=True)
         self.GetInsightsPlot = channel.unary_unary(
                 '/co2analytics.CO2AnalyticsService/GetInsightsPlot',
-                request_serializer=protos_dot_service__pb2.GetInsightsRequest.SerializeToString,
-                response_deserializer=protos_dot_service__pb2.GetInsightsResponse.FromString,
+                request_serializer=service__pb2.GetInsightsRequest.SerializeToString,
+                response_deserializer=service__pb2.GetInsightsResponse.FromString,
                 _registered_method=True)
 
 
@@ -90,23 +90,23 @@ def add_CO2AnalyticsServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'UploadCSV': grpc.unary_unary_rpc_method_handler(
                     servicer.UploadCSV,
-                    request_deserializer=protos_dot_service__pb2.UploadCSVRequest.FromString,
-                    response_serializer=protos_dot_service__pb2.UploadCSVResponse.SerializeToString,
+                    request_deserializer=service__pb2.UploadCSVRequest.FromString,
+                    response_serializer=service__pb2.UploadCSVResponse.SerializeToString,
             ),
             'GetCSV': grpc.unary_unary_rpc_method_handler(
                     servicer.GetCSV,
-                    request_deserializer=protos_dot_service__pb2.GetCSVRequest.FromString,
-                    response_serializer=protos_dot_service__pb2.GetCSVResponse.SerializeToString,
+                    request_deserializer=service__pb2.GetCSVRequest.FromString,
+                    response_serializer=service__pb2.GetCSVResponse.SerializeToString,
             ),
             'UpdateCSV': grpc.unary_unary_rpc_method_handler(
                     servicer.UpdateCSV,
-                    request_deserializer=protos_dot_service__pb2.GlobalInput.FromString,
-                    response_serializer=protos_dot_service__pb2.UpdateCSVResponse.SerializeToString,
+                    request_deserializer=service__pb2.GlobalInput.FromString,
+                    response_serializer=service__pb2.UpdateCSVResponse.SerializeToString,
             ),
             'GetInsightsPlot': grpc.unary_unary_rpc_method_handler(
                     servicer.GetInsightsPlot,
-                    request_deserializer=protos_dot_service__pb2.GetInsightsRequest.FromString,
-                    response_serializer=protos_dot_service__pb2.GetInsightsResponse.SerializeToString,
+                    request_deserializer=service__pb2.GetInsightsRequest.FromString,
+                    response_serializer=service__pb2.GetInsightsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -135,8 +135,8 @@ class CO2AnalyticsService(object):
             request,
             target,
             '/co2analytics.CO2AnalyticsService/UploadCSV',
-            protos_dot_service__pb2.UploadCSVRequest.SerializeToString,
-            protos_dot_service__pb2.UploadCSVResponse.FromString,
+            service__pb2.UploadCSVRequest.SerializeToString,
+            service__pb2.UploadCSVResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -162,8 +162,8 @@ class CO2AnalyticsService(object):
             request,
             target,
             '/co2analytics.CO2AnalyticsService/GetCSV',
-            protos_dot_service__pb2.GetCSVRequest.SerializeToString,
-            protos_dot_service__pb2.GetCSVResponse.FromString,
+            service__pb2.GetCSVRequest.SerializeToString,
+            service__pb2.GetCSVResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -189,8 +189,8 @@ class CO2AnalyticsService(object):
             request,
             target,
             '/co2analytics.CO2AnalyticsService/UpdateCSV',
-            protos_dot_service__pb2.GlobalInput.SerializeToString,
-            protos_dot_service__pb2.UpdateCSVResponse.FromString,
+            service__pb2.GlobalInput.SerializeToString,
+            service__pb2.UpdateCSVResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -216,8 +216,8 @@ class CO2AnalyticsService(object):
             request,
             target,
             '/co2analytics.CO2AnalyticsService/GetInsightsPlot',
-            protos_dot_service__pb2.GetInsightsRequest.SerializeToString,
-            protos_dot_service__pb2.GetInsightsResponse.FromString,
+            service__pb2.GetInsightsRequest.SerializeToString,
+            service__pb2.GetInsightsResponse.FromString,
             options,
             channel_credentials,
             insecure,

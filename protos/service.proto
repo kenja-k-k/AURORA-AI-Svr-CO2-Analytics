@@ -54,7 +54,7 @@ message GetInsightsRequest {
 
 message ChartData {
   repeated string labels = 1;  //for x-axis CO2 emitted
-  repeated double predicted_values = 2; // regression line y-axis
+  repeated  double predicted_values = 2; // regression line y-axis
   repeated  double actual_values = 3;  // actual values for y-axis
 }
 
