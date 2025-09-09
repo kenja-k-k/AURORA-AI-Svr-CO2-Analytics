@@ -85,11 +85,11 @@ message GetInsightsResponse {
 }
 
 message GetCaptureEfficiencyDataResponse {
-  CaptureEfficiencyData chart_data = 1;
+  CaptureEfficiencyData capture_data = 1;
 }
 
 message GetStorageEfficiencyDataResponse {
-  StorageEfficiencyData chart_data = 1;
+  StorageEfficiencyData storage_data = 1;
 }
 
 // The CO2 Analytics AI Service definition

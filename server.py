@@ -112,16 +112,16 @@ class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
             context.set_details("No data available for this facility.")
             return service_pb2.GetCaptureEfficiencyDataResponse()
 
-        chart_data_proto = service_pb2.ChartData(
+        chart_data_proto = service_pb2.CaptureEfficiencyData(
             labels=chart_data["labels"],
             predicted_values=chart_data["predicted_values"],
             actual_values=chart_data["actual_values"],
             inefficiency_flag = chart_data["inefficiency_flag"]
         )
 
-
+        print(chart_data_proto)
         return service_pb2.GetCaptureEfficiencyDataResponse(
-            chart_data = chart_data_proto
+            capture_data = chart_data_proto
         )
 
 
@@ -154,7 +154,7 @@ class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
             context.set_details("No data available for this facility.")
             return service_pb2.GetStorageEfficiencyDataResponse()
 
-        chart_data_proto = service_pb2.ChartData(
+        chart_data_proto = service_pb2.StorageEfficiencyData(
             labels=chart_data["labels"],
             actual_stored_co2=chart_data["actual_stored_co2"],
             predicted_stored_co2=chart_data["predicted_stored_co2"],
@@ -162,7 +162,7 @@ class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
         )
 
         return service_pb2.GetStorageEfficiencyDataResponse(
-            chart_data=chart_data_proto
+            storage_data=chart_data_proto
         )
 
 
