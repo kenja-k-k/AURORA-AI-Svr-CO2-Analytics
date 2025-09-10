@@ -67,28 +67,20 @@ The **Proof of Concept (PoC)** demonstrates three primary features using simulat
 The repository is structured to reflect the modular design of the CO₂ Analytics service.  
 Each directory corresponds to a layer in the system, from raw data ingestion to analytics, alerts, and optional frontend visualization.
 
-| Path / File                      | Description                                                                                      | Related Features |
-|----------------------------------|--------------------------------------------------------------------------------------------------|------------------|
-| **`/data/`**                     | **Sample simulated IoT datasets** used for testing and development. Includes CO₂ emission, capture rates, storage metrics, and anomaly simulation files. | 1.1, 1.2, 1.3 |
-| **`/data/generator.py`**         | Python utility to generate realistic simulated IoT data streams in JSON and CSV formats.          | 1.1 |
-| **`/backend/`**                  | Core backend service logic for data ingestion, processing, and analytics pipeline. Runs inside **Container 1** of the architecture. | All features |
-| **`/backend/service.py`**        | Main service entry point. Handles API endpoints, incoming data streams, and routing to analytics modules. | All features |
-| **`/backend/processing/`**       | Submodule containing analytics processing logic.                                                  | 1.1, 1.2 |
-| **`/backend/processing/realtime.py`** | Processes incoming data in real time for metrics computation.                              | 1.1 |
-| **`/backend/processing/insights.py`** | Machine learning models for detecting patterns and generating operational recommendations.   | 1.2 |
-| **`/backend/alerts.py`**         | Anomaly detection and proactive alerting engine. Integrates with thresholds and machine learning models to detect anomalies such as emission spikes or efficiency drops. | 1.3 |
-| **`/backend/blockchain/`**       | Interfaces with blockchain hashing service to store verifiable hashes of analytics data.           | 1.1 |
-| **`/backend/daemon/`**           | Configuration files and scripts for **SingularityNET Daemon** integration, enabling the service to be published and consumed via the SingularityNET marketplace. | 1.1 |
-| **`/frontend/`** *(optional)*    | Minimal dashboard frontend to visualize live performance metrics, trends, and alerts.             | 1.1 |
-| **`/frontend/app.js`**           | React-based dashboard to display metrics, insights, and anomalies with real-time updates.         | 1.1 |
-| **`/frontend/components/`**      | Modular UI components such as charts, tables, and alert pop-ups.                                 | 1.1 |
-| **`/docs/PoC_Specification.pdf`**| The original PoC requirements document, describing functional and technical expectations for the service. | Reference |
-| **`/tests/`**                     | Unit and integration tests covering data ingestion, analytics processing, and alert generation.   | 1.1, 1.2, 1.3 |
-| **`/tests/test_service.py`**     | Tests core service functions, ensuring metrics and insights are calculated correctly.             | 1.1, 1.2 |
-| **`/tests/test_alerts.py`**      | Validates detection logic for anomalies and alert notifications.                                  | 1.3 |
-| **`Dockerfile`**                  | Container build instructions for deploying the backend service within its isolated runtime environment. | Deployment |
-| **`docker-compose.yml`**         | Orchestration for multi-container setup, including backend, frontend, and database containers.    | Deployment |
-| **`README.md`**                   | This file: comprehensive overview, installation, and usage instructions.                         | Documentation |
+| Path / File            | Description                                                                                          | Related Features |
+|-------------------------|------------------------------------------------------------------------------------------------------|------------------|
+| **`/protos/`**          | gRPC protocol buffer definitions for service communication.                                          | All services |
+| **`service.py`**        | Main FastAPI service entry point. Hosts endpoints for CSV upload/update, insights (ridge regression), seasonal stats, ESG metrics, and anomaly detection. | 1.1, 1.2, 1.3 |
+| **`server.py`**         | gRPC server implementation. Interfaces with `service.py` to expose functions over gRPC.              | All services |
+| **`insights.py`**       | Data analytics module. Contains models (ridge regression, decision tree, LightGBM) and logic for generating insights, detecting anomalies, and trends. | 1.1, 1.2, 1.3 |
+| **`rag.py`** *(planned)*| Retrieval-Augmented Generation (RAG) logic for ESG/LLM queries, integrating CSV + guideline documents. | 1.3 |
+| **`models.py`** *(planned)* | Pydantic models for request/response schemas, based on the CSV data structure.                      | All services |
+| **`requirements.txt`**  | Python dependencies for the service (FastAPI, ML libraries, etc.).                                   | Deployment |
+| **`environment.yml`**   | Conda environment specification for reproducible development.                                        | Deployment |
+| **`Dockerfile`**        | Container build instructions for the service.                                                       | Deployment |
+| **`docker-compose.yml`**| Orchestration for multi-container setup (service, gRPC server, etc.).                               | Deployment |
+| **`README.md`**         | Project overview, installation, and usage instructions.                                             | Documentation |
+| **`.gitignore`**        | Standard gitignore rules for Python and project artifacts.                                          | Housekeeping |
 
 ---
 
