@@ -1,41 +1,114 @@
-<h1>On demand CO2 analytics</h1>
-This project is a fastapi based service for managing and analyzing CO2 emission data. 
-It allows users to upload a CSV dataset, update with entries, and generate analytical insights with a model (currently L2), 
-including an optional plot.
+# AURORA AI Service – CO₂ Analytics
 
-<h2>Usage</h2>
-Use the requirements.txt to install all the necessary dependencies
-The main entry point for the app is server.py which is gRPC server file with endpoints.
-The app can be run in Docker by runing: 
-```docker-compose build --no-cache``` to build the docker image 
-then ```docker-compose up -d``` it will start the container.
+This repository contains the **CO₂ Analytics AI Service**, part of the broader **AURORA Project**, focused on verifiable carbon monitoring and reporting using **AI**, **blockchain**, and **IoT** technologies.
 
-The endpoints will be available at ```lochalhost:50051```
+The service demonstrates how simulated IoT data from Carbon Capture and Storage (CCS) facilities can be analyzed and visualized in real-time, providing actionable insights and alerts to improve operational performance and sustainability outcomes.
 
-In order to test the service in Postman, you need to make sure to choose gRPC instead of HTTP. Postman requires .proto definition files
-for methods and messages. Upload the file ```protos/service.proto``` that is available in the repo. This will allow Postman to identify endpoints 
-that are used.
-Example: ```localhost:50051/UploadCSV```
+---
 
-<h2>Endpoints</h2>
-There are two main endpoints that are currently exposed and are ready for use:
-<ul>
-  <li><b> UploadCSV </b> This endpoint accepts a CSV file in base64 format as a string.
-    
-    ```localhost:50051/UploadCSV```
-    ```{ "file_content": "base64 string here" }```
-    
-  </li>
-    
-  <li><b>GetInsightsPlot </b>This endpoint performs an L2 on the loaded data for a specific facility. It returns a chart data points that can be used to construct a plot / graph showing the relationship between emissions and capture efficiency.
-    
-   ```localhost:50051/GetInsightsPlot```
-   ```{ "facility_name": "Facility Name Here" }```
+## 1. High-Level Architecture
 
-   <b>The process behind GetInsightsPlot</b>
-   This process trains a regression model on the provided data, makes predictions, and prepares the results for visualization. The model is trained using the features extracted from the dataset file,
-   after the training the model predicts the target values based on the input features giving us the values to see how effective CO2 capture was in relation to the emitted amount. Finally, it outputs the chart data
-   that can be used for visualization and extracting useful insights about the facility (CCS plant)
-    .</li>
-</ul>
+The AURORA system integrates **SingularityNET**, AI Services, blockchain-based verification, and IoT data streams into a cohesive decentralized platform.
 
+### System Overview
+![AURORA Architecture](Architecture.jpg)
+
+### Key Components
+- **SingularityNET Integration**
+  - Users and admins access the **Marketplace** and **Publisher Portal** to test and deploy AI services.
+  - The CO₂ Analytics service is published to the marketplace for discovery and consumption.
+
+- **Virtual Machine / Backend**
+  - Each AI service is intended to be run inside **isolated containers**:
+    - **Service 1 (CO₂ Analytics)** – Implemented in this repository.
+    - **Service 2, Service 3, etc.** – Future services for additional analytics and reporting.
+  - Blockchain hashing ensures secure and tamper-proof records.
+  - IoT data streams (simulated in PoC) feed into the analytics service for processing.
+
+- **Frontend (Optional)**
+  - A dashboard visualizes live performance metrics, insights, and alerts.
+
+- **Database Container**
+  - Stores processed data and enables querying for historical analysis.
+
+---
+
+## 2. Role of This Service
+
+This repository specifically implements **Service 1 Backend (CO₂ Analytics)** highlighted in **Container 1** of the architecture.
+
+- **Input:** Simulated IoT data streams mimicking CCS facility operations (CO₂ emissions, capture rates, storage conditions, etc.).
+- **Output:** Real-time metrics, actionable operational insights, and proactive alerts.
+- **Blockchain Integration:** Sends hashed analytics data to the BC/Hashing service for verifiable storage.
+
+This forms the foundation for a scalable, production-ready carbon tracking and reporting system.
+
+### Choice of the Model (Ridge Regression)
+Ridge regression provides a balance between interpretability and robustness by applying regularization, which prevents overfitting even on smaller datasets. This makes it a reliable first step to analyze the linear relationship between emissions and efficiency, while offering immediate, explainable insights for end users and stakeholders. The slope of the regression line becomes an intuitive indicator where near-zero slopes suggest stable operations, while strongly negative slopes quickly highlight performance inefficiencies that require attention.
+From a business perspective, the simplicity of ridge regression directly supports operational decision-making in CCS facilities. The model focuses on the key performance variable—capture efficiency—relative to emissions, which aligns with the industry’s priority of maximizing efficiency while managing operational loads. In parallel, the anomaly detection mechanism, built on rule-based checks and thresholds, ensures that the system is not only predictive but also proactive, flagging abnormal entries in real time. This hybrid approach (ridge regression for trends, anomaly checks for alerts) provides a pragmatic foundation for the analytics service. As the dataset evolves to include additional operational and environmental variables (e.g., temperature, pressure, humidity, wind speed), the framework can scale toward more advanced machine learning models, but ridge regression serves as the most appropriate choice for both interpretability and reliability, given possible limitations of the available data in the form of simulated or user-uploaded CSV data with only a few variables (primarily CO₂ emissions and capture efficiency).
+
+---
+
+## 3. PoC Features and Requirements
+
+The **Proof of Concept (PoC)** demonstrates three primary features using simulated IoT data, as specified in the *CO₂ Analytics Specification*:
+
+| Feature ID | Feature Name          | Description                                                                 |
+|------------|-----------------------|-----------------------------------------------------------------------------|
+| **1.1**    | Live Performance Metrics | Real-time dashboard showing CCS facility performance and capture efficiency. |
+| **1.2**    | Actionable Insights      | AI-powered operational recommendations based on pattern detection.          |
+| **1.3**    | Proactive Alerts         | Real-time warnings for anomalies and potential disruptions.                 |
+
+**Summary of PoC Objectives:**
+- Demonstrate live CO₂ analytics using **simulated IoT data**.
+- Highlight **real-time monitoring** and detection of emission patterns.
+- Showcase AI-generated insights and alerts that deliver operational value.
+
+---
+
+## 4. Repository Structure
+
+The repository is structured to reflect the modular design of the CO₂ Analytics service.  
+Each directory corresponds to a layer in the system, from raw data ingestion to analytics, alerts, and optional frontend visualization.
+
+| Path / File            | Description                                                                                          | Related Features |
+|-------------------------|------------------------------------------------------------------------------------------------------|------------------|
+| **`/protos/`**          | gRPC protocol buffer definitions for service communication.                                          | All services |
+| **`.gitignore`**        | Standard gitignore rules for Python and project artifacts.                                          | Housekeeping |
+| **`Dockerfile`**        | Container build instructions for the service.                                                       | Deployment |
+| **`README.md`**         | Project overview, installation, and usage instructions. (what you are looking at now)                | Documentation |
+| **`docker-compose.yml`**| Orchestration for multi-container setup (service, gRPC server, etc.).                               | Deployment |
+| **`environment.yml`**   | Conda environment specification for reproducible development.                                        | Deployment |
+| **`insights.py`**       | Data analytics module. Contains models (ridge regression, decision tree, LightGBM) and logic for generating insights, detecting anomalies, and trends. | 1.1, 1.2, 1.3 |
+| **`requirements.txt`**  | Python dependencies for the service (FastAPI, ML libraries, etc.).                                   | Deployment |
+| **`server.py`**         | gRPC server implementation. Interfaces with `service.py` to expose functions over gRPC.              | All services |
+| **`service.py`**        | Main FastAPI service entry point. Hosts endpoints for CSV upload/update, insights (ridge regression), seasonal stats, ESG metrics, and anomaly detection. | 1.1, 1.2, 1.3 |
+| **`rag.py`** *(planned)*| Retrieval-Augmented Generation (RAG) logic for ESG/LLM queries, integrating CSV + guideline documents. | 1.3 |
+| **`models.py`** *(planned)* | Pydantic models for request/response schemas, based on the CSV data structure.                      | All services |
+
+
+---
+
+## 5. Deployment Instructions
+
+### Prerequisites
+- **Docker** for containerized deployment.
+- **Python 3.10+** for backend services.
+- **SingularityNET CLI** for publishing to the marketplace.
+- **Metamask Wallet (TestNet Account)** for blockchain testnet interactions.
+
+### Steps
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/kenja-k-k/AURORA-AI-Svr-CO2-Analytics.git
+   cd AURORA-AI-Svr-CO2-Analytics
+2. **Build and run the container:**
+   ```bash
+   docker build -t co2-analytics-service .
+   docker run -p 8000:8000 co2-analytics-service
+3. **Access the service:**
+    Backend API: http://localhost:8000/api/v1
+    Optional frontend dashboard: http://localhost:3000
+4. **Publish to SingularityNet testnet (optional) 
+      Configure daemon files in /backend/daemon/.
+     Use the SingularityNET Publisher Portal
