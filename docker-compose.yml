@@ -1,10 +1,58 @@
 
+version: "3.9"
+
 services:
-  web:
-    build: .
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.9
+    container_name: etcd
+    command: >
+      /usr/local/bin/etcd
+      --name etcd0
+      --data-dir /etcd-data
+      --advertise-client-urls http://0.0.0.0:2379
+      --listen-client-urls http://0.0.0.0:2379
+      --initial-advertise-peer-urls http://0.0.0.0:2380
+      --listen-peer-urls http://0.0.0.0:2380
+      --initial-cluster etcd0=http://0.0.0.0:2380
+      --initial-cluster-state new
+      --initial-cluster-token etcd-token
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+    volumes:
+      - etcd-data:/etcd-data
+    networks:
+      - snet-net
+
+  co2-analytics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: co2-analytics
     ports:
       - "50051:50051"
+    networks:
+      - snet-net
+
+  snet-daemon:
+    image: singularitynet/snet-daemon:latest
+    container_name: snet-daemon
+    depends_on:
+      - etcd
+      - co2-analytics
+    ports:
+      - "7000:7000"
     volumes:
-      - .:/app
-    environment:
-      - ENV=production
+      - ./config.json:/etc/singnet/config.json:ro
+    command: >
+      snetd --config /etc/singnet/config.json
+    networks:
+      - snet-net
+
+volumes:
+  etcd-data:
+
+networks:
+  snet-net:
+    driver: bridge
+
