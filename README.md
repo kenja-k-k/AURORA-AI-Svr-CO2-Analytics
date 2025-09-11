@@ -19,7 +19,7 @@ The AURORA system integrates **SingularityNET**, AI Services, blockchain-based v
   - The CO₂ Analytics service is published to the marketplace for discovery and consumption.
 
 - **Virtual Machine / Backend**
-  - Each AI service runs inside **isolated containers**:
+  - Each AI service is intended to be run inside **isolated containers**:
     - **Service 1 (CO₂ Analytics)** – Implemented in this repository.
     - **Service 2, Service 3, etc.** – Future services for additional analytics and reporting.
   - Blockchain hashing ensures secure and tamper-proof records.
@@ -42,6 +42,10 @@ This repository specifically implements **Service 1 Backend (CO₂ Analytics)** 
 - **Blockchain Integration:** Sends hashed analytics data to the BC/Hashing service for verifiable storage.
 
 This forms the foundation for a scalable, production-ready carbon tracking and reporting system.
+
+### Choice of the Model (Ridge Regression)
+Ridge regression provides a balance between interpretability and robustness by applying regularization, which prevents overfitting even on smaller datasets. This makes it a reliable first step to analyze the linear relationship between emissions and efficiency, while offering immediate, explainable insights for end users and stakeholders. The slope of the regression line becomes an intuitive indicator where near-zero slopes suggest stable operations, while strongly negative slopes quickly highlight performance inefficiencies that require attention.
+From a business perspective, the simplicity of ridge regression directly supports operational decision-making in CCS facilities. The model focuses on the key performance variable—capture efficiency—relative to emissions, which aligns with the industry’s priority of maximizing efficiency while managing operational loads. In parallel, the anomaly detection mechanism, built on rule-based checks and thresholds, ensures that the system is not only predictive but also proactive, flagging abnormal entries in real time. This hybrid approach (ridge regression for trends, anomaly checks for alerts) provides a pragmatic foundation for the analytics service. As the dataset evolves to include additional operational and environmental variables (e.g., temperature, pressure, humidity, wind speed), the framework can scale toward more advanced machine learning models, but ridge regression serves as the most appropriate choice for both interpretability and reliability, given possible limitations of the available data in the form of simulated or user-uploaded CSV data with only a few variables (primarily CO₂ emissions and capture efficiency).
 
 ---
 
