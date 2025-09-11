@@ -74,17 +74,18 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
 | Path / File            | Description                                                                                          | Related Features |
 |-------------------------|------------------------------------------------------------------------------------------------------|------------------|
 | **`/protos/`**          | gRPC protocol buffer definitions for service communication.                                          | All services |
-| **`service.py`**        | Main FastAPI service entry point. Hosts endpoints for CSV upload/update, insights (ridge regression), seasonal stats, ESG metrics, and anomaly detection. | 1.1, 1.2, 1.3 |
-| **`server.py`**         | gRPC server implementation. Interfaces with `service.py` to expose functions over gRPC.              | All services |
+| **`.gitignore`**        | Standard gitignore rules for Python and project artifacts.                                          | Housekeeping |
+| **`Dockerfile`**        | Container build instructions for the service.                                                       | Deployment |
+| **`README.md`**         | Project overview, installation, and usage instructions. (what you are looking at now)                | Documentation |
+| **`docker-compose.yml`**| Orchestration for multi-container setup (service, gRPC server, etc.).                               | Deployment |
+| **`environment.yml`**   | Conda environment specification for reproducible development.                                        | Deployment |
 | **`insights.py`**       | Data analytics module. Contains models (ridge regression, decision tree, LightGBM) and logic for generating insights, detecting anomalies, and trends. | 1.1, 1.2, 1.3 |
+| **`requirements.txt`**  | Python dependencies for the service (FastAPI, ML libraries, etc.).                                   | Deployment |
+| **`server.py`**         | gRPC server implementation. Interfaces with `service.py` to expose functions over gRPC.              | All services |
+| **`service.py`**        | Main FastAPI service entry point. Hosts endpoints for CSV upload/update, insights (ridge regression), seasonal stats, ESG metrics, and anomaly detection. | 1.1, 1.2, 1.3 |
 | **`rag.py`** *(planned)*| Retrieval-Augmented Generation (RAG) logic for ESG/LLM queries, integrating CSV + guideline documents. | 1.3 |
 | **`models.py`** *(planned)* | Pydantic models for request/response schemas, based on the CSV data structure.                      | All services |
-| **`requirements.txt`**  | Python dependencies for the service (FastAPI, ML libraries, etc.).                                   | Deployment |
-| **`environment.yml`**   | Conda environment specification for reproducible development.                                        | Deployment |
-| **`Dockerfile`**        | Container build instructions for the service.                                                       | Deployment |
-| **`docker-compose.yml`**| Orchestration for multi-container setup (service, gRPC server, etc.).                               | Deployment |
-| **`README.md`**         | Project overview, installation, and usage instructions.                                             | Documentation |
-| **`.gitignore`**        | Standard gitignore rules for Python and project artifacts.                                          | Housekeeping |
+
 
 ---
 
