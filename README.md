@@ -143,8 +143,10 @@ Our service is available on the **SingularityNET Marketplace**. You can integrat
 - **Node.js (LTS)** if using the JavaScript SDK
 
 **Steps**
-1. Install the CLI with pip (e.g., `pip install snet-cli`)
-2. (Optional) Install SDKs for integration (Python or JavaScript SDK)
+1. Install the CLI with pip
+   ```bash
+   pip install snet-cli
+3. (Optional) Install SDKs for integration (Python or JavaScript SDK)
 
 ### 3. Open a Payment Channel
 **Prerequisites**
@@ -152,14 +154,18 @@ Our service is available on the **SingularityNET Marketplace**. You can integrat
 - AGIX tokens available in your wallet
 
 **Steps**
-1. Deposit AGIX into your account (e.g., `snet account deposit 100`)
-2. Open a payment channel for the service (e.g., `snet channel open <org_id> <service_id> 10 1`)
+1. Deposit AGIX into your account
+   ```bash
+   snet account deposit 100
+3. Open a payment channel for the service
+   ```bash
+   snet channel open <org_id> <service_id> 10 1
 
 Where:
-`<org_id>` → the organization ID on the marketplace
-`<service_id>` → the identifier of our AI service
-`10` → amount of AGIX tokens allocated
-`1` → channel expiration in blocks
+- `<org_id>` → the organization ID on the marketplace
+- `<service_id>` → the identifier of our AI service
+- `10` → amount of AGIX tokens allocated
+- `1` → channel expiration in blocks
 
 ### 4. Call the Service
 **Prerequisites**
@@ -200,6 +206,10 @@ Where:
 - Active payment channels
 
 **Steps**
-1. Check channel balance (e.g., `snet channel balance`)
-2. Extend or open new channels as needed (e.g., `net channel extend-add-for-service <org_id> <service_id> 10 10000`)
-3. Monitor logs and metrics through your SingularityNET account dashboard.
+1. Check channel balance
+   ```bash
+   snet channel balance
+3. Extend or open new channels as needed
+   ```bash
+   net channel extend-add-for-service <org_id> <service_id> 10 10000
+4. Monitor logs and metrics through your SingularityNET account dashboard.
