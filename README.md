@@ -126,8 +126,10 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
 
 ## 6. Deployment Instructions for True Integration
 
-Our service is available on the **SingularityNET Marketplace**.  
-You can integrate it into your application in just a few steps:
+Our service is available on the **SingularityNET Marketplace**. You can integrate it into your application in just a few steps.
+- You don’t interact with our infrastructure directly.
+- You just use the SingularityNET CLI or SDK.
+- The daemon + marketplace handle authentication, payments, and routing to our AI service.
 
 ### 1. Create a SingularityNET Account
 1. Go to the [SingularityNET Marketplace] (https://beta.singularitynet.io/).  
@@ -163,21 +165,40 @@ Where:
 **Prerequisites**
 - Open payment channel to our service
 - Service method name (from marketplace metadata)
-- 
+
 **Steps**
 1. Call the service via CLI
     `snet call <org_id> <service_id> <service_method> \
       -y '{"input": "Your request here"}'`
-3. Or call the service via Python SDK
-    from snet import sdk
+2. Or call the service via Python SDK
 
+`from snet import sdk
 snet_sdk = sdk.SnetSDK(config_path="~/.snet/config")
-
 client = snet_sdk.create_service_client(
     org_id="<org_id>",
     service_id="<service_id>",
     group_name="default_group"
 )
-
 response = client.call_rpc("service_method", {"input": "Your request here"})
-print(response)
+print(response)`
+
+### 5. Integrate Into Your Application
+**Prerequisites**
+- Working backend (Python, Node.js, or other supported runtime)
+- Access to the SNET SDK or CLI
+
+**Steps**
+1. Wrap the SDK call into your backend service or workflow.
+2. Pass inputs from your application into the request.
+3. Handle the responses just like any other API result.
+4. Rely on the daemon to ensure authentication, payments, and secure execution.
+
+### 6. Monitor & Manage Usage
+**Prerequisites**
+- SNET CLI configured
+- Active payment channels
+
+**Steps**
+1. Check channel balance (e.g., `snet channel balance`)
+2. Extend or open new channels as needed (e.g., `net channel extend-add-for-service <org_id> <service_id> 10 10000`)
+3. Monitor logs and metrics through your SingularityNET account dashboard.
