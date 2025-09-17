@@ -21,14 +21,14 @@ The AURORA system integrates **SingularityNET**, AI Services, blockchain-based v
 - **Virtual Machine / Backend**
   - Each AI service is intended to be run inside **isolated containers**:
     - **Service 1 (CO₂ Analytics)** – Implemented in this repository.
-    - **Service 2, Service 3, etc.** – Future services for additional analytics and reporting.
+    - **Service 2, Service 3, etc.** – Other available services for additional analytics and reporting. All services operate and are available independently from one another.
   - Blockchain hashing ensures secure and tamper-proof records.
   - IoT data streams (simulated in PoC) feed into the analytics service for processing.
 
 - **Daemon**
-  - This acts as your trusted gateway between SingularityNET and your chosen service.
+  - This acts as your trusted **gateway** between SingularityNET and your chosen service.
   - You interact with the daemon using the standard SingularityNET tools (SDKs, CLI, APIs).
-  - The daemon exposes the standard SingularityNET API endpoint. It takes care of authentication and payment verification automatically, so only valid, authorized requests reach the AI service.
+  - The daemon exposes the standard SingularityNET API endpoint. It takes care of **authentication** and payment **verification** automatically, so only valid, authorized requests reach the AI service.
   - It ensures requests are properly formatted and reliably delivered, while also handling responses back to your application.
   - This design means your application connects to our service in a secure, predictable, and marketplace-compliant way, without needing to worry about the internal details of our infrastructure.
 
@@ -46,6 +46,7 @@ This repository specifically implements **Service 1 Backend (CO₂ Analytics)** 
 
 - **Input:** Simulated IoT data streams mimicking CCS facility operations (CO₂ emissions, capture rates, storage conditions, etc.).
 - **Output:** Real-time metrics, actionable operational insights, and proactive alerts.
+- **Insights Generation:** You can check the insights.py file to see the code for generating the insights. This code file includes highly detailed comments explaining the steps taken, understandable also for non-developers.
 - **Blockchain Integration:** Sends hashed analytics data to the BC/Hashing service for verifiable storage.
 
 This forms the foundation for a scalable, production-ready carbon tracking and reporting system.
