@@ -100,7 +100,7 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
 
 ---
 
-## 5. Deployment Instructions
+## 5. Deployment Instructions for Testing/ Demo
 
 ### Prerequisites
 - **Docker** for containerized deployment.
@@ -123,3 +123,61 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
 4. **Publish to SingularityNet testnet (optional) 
       Configure daemon files in /backend/daemon/.
      Use the SingularityNET Publisher Portal
+
+## 6. Deployment Instructions for True Integration
+
+Our service is available on the **SingularityNET Marketplace**.  
+You can integrate it into your application in just a few steps:
+
+### 1. Create a SingularityNET Account
+1. Go to the [SingularityNET Marketplace] (https://beta.singularitynet.io/).  
+2. Create an account.
+3. Link your **Metamask (or compatible wallet)**
+4. Fund your wallet with **AGIX tokens** (required for service usage).
+
+### 2. Install the SingularityNET CLI or SDK
+**Prerequisites**
+- **Python 3.8+** for CLI and Python SDK  
+- **Node.js (LTS)** if using the JavaScript SDK
+
+**Steps**
+1. Install the CLI with pip (e.g., `pip install snet-cli`)
+2. (Optional) Install SDKs for integration (Python or JavaScript SDK)
+
+### 3. Open a Payment Channel
+**Prerequisites**
+- SNET CLI installed and configured
+- AGIX tokens available in your wallet
+
+**Steps**
+1. Deposit AGIX into your account (e.g., `snet account deposit 100`)
+2. Open a payment channel for the service (e.g., `snet channel open <org_id> <service_id> 10 1`)
+
+Where:
+`<org_id>` → the organization ID on the marketplace
+`<service_id>` → the identifier of our AI service
+`10` → amount of AGIX tokens allocated
+`1` → channel expiration in blocks
+
+### 4. Call the Service
+**Prerequisites**
+- Open payment channel to our service
+- Service method name (from marketplace metadata)
+- 
+**Steps**
+1. Call the service via CLI
+    `snet call <org_id> <service_id> <service_method> \
+      -y '{"input": "Your request here"}'`
+3. Or call the service via Python SDK
+    from snet import sdk
+
+snet_sdk = sdk.SnetSDK(config_path="~/.snet/config")
+
+client = snet_sdk.create_service_client(
+    org_id="<org_id>",
+    service_id="<service_id>",
+    group_name="default_group"
+)
+
+response = client.call_rpc("service_method", {"input": "Your request here"})
+print(response)
