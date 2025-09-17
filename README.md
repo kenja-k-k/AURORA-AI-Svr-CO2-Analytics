@@ -25,6 +25,13 @@ The AURORA system integrates **SingularityNET**, AI Services, blockchain-based v
   - Blockchain hashing ensures secure and tamper-proof records.
   - IoT data streams (simulated in PoC) feed into the analytics service for processing.
 
+- **Daemon**
+  - This acts as your trusted gateway between SingularityNET and your chosen service.
+  - You interact with the daemon using the standard SingularityNET tools (SDKs, CLI, APIs).
+  - The daemon exposes the standard SingularityNET API endpoint. It takes care of authentication and payment verification automatically, so only valid, authorized requests reach the AI service.
+  - It ensures requests are properly formatted and reliably delivered, while also handling responses back to your application.
+  - This design means your application connects to our service in a secure, predictable, and marketplace-compliant way, without needing to worry about the internal details of our infrastructure.
+
 - **Frontend (Optional)**
   - A dashboard visualizes live performance metrics, insights, and alerts.
 
