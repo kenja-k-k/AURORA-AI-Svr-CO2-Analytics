@@ -168,19 +168,20 @@ Where:
 
 **Steps**
 1. Call the service via CLI
-    `snet call <org_id> <service_id> <service_method> \
-      -y '{"input": "Your request here"}'`
+   ```bash
+   snet call <org_id> <service_id> <service_method> \
+   -y '{"input": "Your request here"}'
 2. Or call the service via Python SDK
-
-`from snet import sdk
-snet_sdk = sdk.SnetSDK(config_path="~/.snet/config")
-client = snet_sdk.create_service_client(
-    org_id="<org_id>",
-    service_id="<service_id>",
-    group_name="default_group"
-)
-response = client.call_rpc("service_method", {"input": "Your request here"})
-print(response)`
+   ```bash
+   from snet import sdk
+   snet_sdk = sdk.SnetSDK(config_path="~/.snet/config")
+   client = snet_sdk.create_service_client(
+       org_id="<org_id>",
+       service_id="<service_id>",
+       group_name="default_group"
+   )
+   response = client.call_rpc("service_method", {"input": "Your request here"})
+   print(response)
 
 ### 5. Integrate Into Your Application
 **Prerequisites**
