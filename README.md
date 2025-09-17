@@ -17,8 +17,9 @@ The AURORA system integrates **SingularityNET**, AI Services, blockchain-based v
 - **SingularityNET Integration**
   - Users and admins access the **Marketplace** and **Publisher Portal** to test and deploy AI services.
   - The CO₂ Analytics service is published to the marketplace for discovery and consumption.
+  - The main way to use the service is as a component to be integrated into an external/pre-existing system, by said system calling the service's exposed endpoint(s) through the daemon. Frontend display and further processing of the services' outputs are up to the aforementioned system. By making these kinds of integratable components (services) available, SingularityNET simplifies AI application development.
 
-- **Virtual Machine / Backend**
+- **Virtual Machine (VM) / Backend**
   - Each AI service is intended to be run inside **isolated containers**:
     - **Service 1 (CO₂ Analytics)** – Implemented in this repository.
     - **Service 2, Service 3, etc.** – Other available services for additional analytics and reporting. All services operate and are available independently from one another.
@@ -34,6 +35,7 @@ The AURORA system integrates **SingularityNET**, AI Services, blockchain-based v
 
 - **Frontend (Optional)**
   - A dashboard visualizes live performance metrics, insights, and alerts.
+  - Mostly for demo purposes, there is a dedicated simple frontend available, to visualize the services' generated outputs. It is connected to the service backend through the daemon in the same way as intended in the original way of use. Direct access to the frontend code deployment (on the VM) is neded for this setup.
 
 - **Database Container**
   - Stores processed data and enables querying for historical analysis.
