@@ -42,6 +42,24 @@ All three services are independent of each other and can therefore be used indiv
 - **Database Container**
   - Stores processed data and enables querying for historical analysis.
 
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant C as Client Application (SDK/CLI)
+    participant D as SNET Daemon
+    participant A as AI Service
+    participant E as ETCD Store
+
+    U->>C: Triggers request (e.g., clicks button)
+    C->>D: Sends API request with auth/payment
+    D->>E: (Optional) Fetch config/state
+    E-->>D: Return config/state
+
+    D->>A: Forward service request (payload, params)
+    A-->>D: Return result / error
+
+    D-->>C: Send response back
+    C-->>U: Display output in app
 ---
 
 ## 2. Role of This Service
