@@ -67,6 +67,8 @@ From a business perspective, the simplicity of ridge regression directly support
 
 ## 3. PoC Features and Requirements
 
+![Aurora service 1 insights generation flow](https://github.com/kenja-k-k/AURORA-AI-Svr-CO2-Analytics/blob/main/Aurora%20service%201%20insights%20generation%20flow.jpg)
+
 The **Proof of Concept (PoC)** demonstrates three primary features using simulated IoT data, as specified in the *CO₂ Analytics Specification*:
 
 | Feature ID | Feature Name          | Description                                                                 |
@@ -91,7 +93,7 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
 |-------------------------|------------------------------------------------------------------------------------------------------|------------------|
 | **`/protos/`**          | gRPC protocol buffer definitions for service communication.                                          | All services |
 | **`.gitignore`**        | Standard gitignore rules for Python and project artifacts.                                          | Housekeeping |
-| **`Aurora component diagram.jpg`**   | High-level component diagram of the ESG Reporting service.                                         | Documentation |
+| **`Aurora component diagram.jpg, Aurora sequence diagram.png, Aurora service 1 insights generation flow.jpg`**   | Diagrams of the Aurora project and ESG Reporting service.                                         | Documentation |
 | **`Dockerfile`**        | Container build instructions for the service.                                                       | Deployment |
 | **`README.md`**         | Project overview, installation, and usage instructions. (what you are looking at now)                | Documentation |
 | **`docker-compose.yml`**| Orchestration for multi-container setup (service, gRPC server, etc.).                               | Deployment |
