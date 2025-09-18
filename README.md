@@ -9,6 +9,7 @@ The service demonstrates how simulated IoT data from Carbon Capture and Storage 
 ## 1. High-Level Architecture
 
 The AURORA system integrates **SingularityNET**, AI Services, blockchain-based verification, and IoT data streams into a cohesive decentralized platform.
+All three services are independent of each other and can therefore be used individually. However, they are hosted on the same server.
 
 ### System Overview
 ![Aurora component diagram](https://github.com/kenja-k-k/AURORA-AI-Svr-CO2-Analytics/blob/main/Aurora%20component%20diagram.jpg)
@@ -24,7 +25,7 @@ The AURORA system integrates **SingularityNET**, AI Services, blockchain-based v
   - Each AI service is intended to be run inside **isolated containers**:
     - **Service 1 (CO₂ Analytics)** – Implemented in this repository.
     - **Service 2, Service 3, etc.** – Other available services for additional analytics and reporting. All services operate and are available independently from one another.
-  - Blockchain hashing ensures secure and tamper-proof records.
+  - Blockchain hashing (placeholder in Poc) ensures secure and tamper-proof records through creating cyptographic fingerprints.
   - IoT data streams (simulated in PoC) feed into the analytics service for processing.
 
 - **Daemon**
