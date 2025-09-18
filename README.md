@@ -42,7 +42,9 @@ All three services are independent of each other and can therefore be used indiv
 - **Database Container**
   - Stores processed data and enables querying for historical analysis.
 
+**Components interact as follows**
 ![Aurora sequence diagram](https://github.com/kenja-k-k/AURORA-AI-Svr-CO2-Analytics/blob/main/Aurora%20sequence%20diagram.png)
+
 ---
 
 ## 2. Role of This Service
