@@ -115,15 +115,17 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
    git clone https://github.com/kenja-k-k/AURORA-AI-Svr-CO2-Analytics.git
    cd AURORA-AI-Svr-CO2-Analytics
 2. **Build and run the container:**
+  The first one will build the three images specified in the docker-compose.yml file (the service, the ETCD store and the daemon).
+The second one will start the containers based on the built images. There is no need to specify ports and names of containers, as everything is specified in the docker-compose.yml file.
    ```bash
-   docker build -t co2-analytics-service .
-   docker run -p 8000:8000 co2-analytics-service
+   docker compose build
+   docker compose up -d
 3. **Access the service:**
-    Backend API: http://localhost:8000/api/v1
+    Backend API: http://localhost:7000
     Optional frontend dashboard: http://localhost:3000
-4. **Publish to SingularityNet testnet (optional) 
+4. **Publish to SingularityNet testnet (optional)**
       Configure daemon files in /backend/daemon/.
-     Use the SingularityNET Publisher Portal
+      Use the SingularityNET Publisher Portal
 
 ## 6. Deployment Instructions for True Integration
 
