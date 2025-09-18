@@ -88,6 +88,7 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
 |-------------------------|------------------------------------------------------------------------------------------------------|------------------|
 | **`/protos/`**          | gRPC protocol buffer definitions for service communication.                                          | All services |
 | **`.gitignore`**        | Standard gitignore rules for Python and project artifacts.                                          | Housekeeping |
+| **`Aurora component diagram.jpg`**   | High-level component diagram of the ESG Reporting service.                                         | Documentation |
 | **`Dockerfile`**        | Container build instructions for the service.                                                       | Deployment |
 | **`README.md`**         | Project overview, installation, and usage instructions. (what you are looking at now)                | Documentation |
 | **`docker-compose.yml`**| Orchestration for multi-container setup (service, gRPC server, etc.).                               | Deployment |
