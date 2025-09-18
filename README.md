@@ -97,8 +97,8 @@ Each directory corresponds to a layer in the system, from raw data ingestion to 
 | **`requirements.txt`**  | Python dependencies for the service (FastAPI, ML libraries, etc.).                                   | Deployment |
 | **`server.py`**         | gRPC server implementation. Interfaces with `service.py` to expose functions over gRPC.              | All services |
 | **`service.py`**        | Main FastAPI service entry point. Hosts endpoints for CSV upload/update, insights (ridge regression), seasonal stats, ESG metrics, and anomaly detection. | 1.1, 1.2, 1.3 |
-| **`rag.py`** *(planned)*| Retrieval-Augmented Generation (RAG) logic for ESG/LLM queries, integrating CSV + guideline documents. | 1.3 |
-| **`models.py`** *(planned)* | Pydantic models for request/response schemas, based on the CSV data structure.                      | All services |
+| **`rag.py`** | Retrieval-Augmented Generation (RAG) logic for ESG/LLM queries, integrating CSV + guideline documents. | 1.3 |
+| **`models.py`** | Pydantic models for request/response schemas, based on the CSV data structure.                      | All services |
 
 
 ---
