@@ -75,7 +75,12 @@ class CO2AnalyticsService(service_pb2_grpc.CO2AnalyticsServiceServicer):
         chart_data_proto = service_pb2.ChartData(
             labels=chart_data["labels"],
             predicted_values=chart_data["predicted_values"],
-            actual_values=chart_data["actual_values"]
+            actual_values=chart_data["actual_values"],
+            min_emissions=chart_data["min_emissions"],
+            max_emissions=chart_data["max_emissions"],
+            total_emissions=chart_data["total_emissions"],
+            total_captured=chart_data["total_captured"],
+            facility_name=chart_data["facility_name"],
         )
 
 

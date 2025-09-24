@@ -17,7 +17,7 @@ import argparse                   # Tool that lets us run the code from the comm
 
 def CO2_emssion_pattern(data, facility_name, plot=False):
    filtered = data[data["facility_name"] == facility_name].dropna(          # STEP 1: Only keep rows belonging to the requested facility and drop rows with missing values
-        subset=["co2_emitted_tonnes", "capture_efficiency_percent"]
+        subset=["co2_emitted_tonnes", "capture_efficiency_percent", "co2_captured_tonnes"]
     )
    if filtered.empty:                                                       # If there is no usable data, stop here
         print(f"No data found for facility: {facility_name}")
@@ -26,7 +26,7 @@ def CO2_emssion_pattern(data, facility_name, plot=False):
    latest_month = filtered["date"].dt.to_period("M").max()                  # STEP 3: Focus only on the most recent month’s data
    filtered = filtered[filtered["date"].dt.to_period("M") == latest_month]
    x = filtered[["co2_emitted_tonnes"]]                                     # STEP 4: Define inputs (X) and target (Y) for the model
-   y = filtered["capture_efficiency_percent"]
+   y = filtered["co2_captured_tonnes"]
    d = filtered["date"]
    model = Ridge()                                                          # STEP 5: Train a Ridge Regression model on this data
    model.fit(x, y)
@@ -35,7 +35,12 @@ def CO2_emssion_pattern(data, facility_name, plot=False):
    chart_data = {                                                           # STEP 6: Package results into a dictionary for dashboards
        "labels": d.dt.strftime("%Y-%m-%d").tolist() , # returning dates as labels
        "actual_values": x["co2_emitted_tonnes"].tolist(), # actual amount emitted in tonnes
-       "predicted_values": y.tolist(), # percentage captured from the emitted amount
+       "predicted_values": y_pred.tolist(), # percentage captured from the emitted amount
+       "min_emissions": filtered["co2_emitted_tonnes"].min(),
+       "max_emissions": filtered["co2_emitted_tonnes"].max(),
+       "total_emissions": filtered["co2_emitted_tonnes"].sum(),
+       "total_captured": filtered["co2_captured_tonnes"].sum(),
+       "facility_name": facility_name,
    }
    return chart_data
 

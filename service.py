@@ -6,7 +6,7 @@ import base64
 from io import BytesIO
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timezone
-import service_pb2
+
 
 
 app = FastAPI(title="CO2 Analytical insights AI service")
@@ -70,7 +70,7 @@ async def upload_csv(file: UploadFile = File(...)):
 def use_csv():
     global csv_path, data
     
-    csv_path = fr".\csv_dataset"
+    csv_path = fr".\csv_dataset.csv"
     if os.path.exists(csv_path):
         data = pd.read_csv(csv_path)
        # return {f"CSV data set to local path on server: {csv_path}"}
@@ -128,9 +128,10 @@ async def get_insights_plot(facility_name: str, scatter: bool = False):
         raise HTTPException(status_code=400, detail="No csv loaded. Use /set_csv/ before anything.")
 
     # Call the CO2_emssion_pattern. For now, only returning the plot. Might modify the response in future commits
-    model, graph = CO2_emssion_pattern(data, facility_name=facility_name, plot=True, scatter=scatter)
+   # model, graph = CO2_emssion_pattern(data, facility_name=facility_name, plot=True, scatter=scatter)
+    chart_data = CO2_emssion_pattern(data, facility_name=facility_name)
 
-    if graph is None:
+    if chart_data is None:
         raise HTTPException(status_code=404, detail=f"No data for {facility_name}.")
     
     """
@@ -139,10 +140,10 @@ async def get_insights_plot(facility_name: str, scatter: bool = False):
     This can be decoded to get the actual plot on the front end.
     """
 
-    buf = BytesIO()
-    graph.savefig(buf, format="png")
-    buf.seek(0)
-    plot_base64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+    #buf = BytesIO()
+    #graph.savefig(buf, format="png")
+    #buf.seek(0)
+    #plot_base64 = base64.b64encode(buf.getvalue()).decode("utf-8")
 
-    return {plot_base64}
+    return chart_data
 #___________________________

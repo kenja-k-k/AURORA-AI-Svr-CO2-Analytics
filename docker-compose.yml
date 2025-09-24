@@ -1,51 +1,53 @@
-
-version: "3.9"
-
 services:
-  etcd:
+  co2-etcd-service:
     image: quay.io/coreos/etcd:v3.5.9
-    container_name: etcd
+    container_name: etcd-co2
     command: >
       /usr/local/bin/etcd
       --name etcd0
       --data-dir /etcd-data
-      --advertise-client-urls http://0.0.0.0:2379
-      --listen-client-urls http://0.0.0.0:2379
-      --initial-advertise-peer-urls http://0.0.0.0:2380
-      --listen-peer-urls http://0.0.0.0:2380
-      --initial-cluster etcd0=http://0.0.0.0:2380
+      --advertise-client-urls http://etcd-esg:2377
+      --listen-client-urls http://0.0.0.0:2377
+      --initial-advertise-peer-urls http://etcd-co2:2382
+      --listen-peer-urls http://0.0.0.0:2382
+      --initial-cluster etcd0=http://etcd-co2:2382
       --initial-cluster-state new
       --initial-cluster-token etcd-token
     ports:
-      - "2379:2379"
-      - "2380:2380"
+      - "2377:2377"
+      - "2382:2382"
     volumes:
       - etcd-data:/etcd-data
     networks:
       - snet-net
 
-  co2-analytics:
+  co2-analytics-service:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: co2-analytics
     ports:
-      - "50051:50051"
+      - "50053:50053"
     networks:
       - snet-net
 
-  snet-daemon:
-    image: singularitynet/snet-daemon:latest
-    container_name: snet-daemon
+  co2-snet-daemon:
+    build:
+      context: ./snet-daemon
+      dockerfile: docker/Dockerfile
+    image: snet-daemon:v6.1.0
+    container_name: co2-snet-daemon
     depends_on:
-      - etcd
-      - co2-analytics
+      - co2-etcd-service
+      - co2-analytics-service
     ports:
       - "7000:7000"
     volumes:
-      - ./config.json:/etc/singnet/config.json:ro
-    command: >
-      snetd --config /etc/singnet/config.json
+      - ./snet-config:/etc/singnet:ro
+      - ./certs:/usr/local/share/ca-certificates:ro
+      - /etc/letsencrypt/live/singularitynet.kenja.com/fullchain.pem:/etc/letsencrypt/live/singularitynet.kenja.com/fullchain.pem:ro
+      - /etc/letsencrypt/live/singularitynet.kenja.com/privkey.pem:/etc/letsencrypt/live/singularitynet.kenja.com/privkey.pem:ro
+
     networks:
       - snet-net
 
@@ -55,4 +57,3 @@ volumes:
 networks:
   snet-net:
     driver: bridge
-

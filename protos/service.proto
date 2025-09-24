@@ -60,9 +60,14 @@ message GetStorageEfficiencyDataRequest {
 }
 
 message ChartData {
-  repeated string labels = 1;  //for x-axis CO2 emitted
+  repeated string labels = 1;  //for x-axis return dates as labels
   repeated  double predicted_values = 2; // regression line y-axis
   repeated  double actual_values = 3;  // actual values for y-axis
+  double min_emissions = 4;
+  double max_emissions = 5;
+  double total_emissions = 6;
+  double total_captured = 7;
+  string facility_name = 8;
 }
 
 message CaptureEfficiencyData {
